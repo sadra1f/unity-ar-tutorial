@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 
 public class SpawnManager : MonoBehaviour
@@ -36,7 +37,10 @@ public class SpawnManager : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(touch.position);
 
 
-        if (raycastManager.Raycast(touch.position, hits))
+        if (
+            !EventSystem.current.IsPointerOverGameObject(touch.fingerId)
+            && raycastManager.Raycast(touch.position, hits)
+        )
         {
             if (
                 touch.phase == TouchPhase.Began
